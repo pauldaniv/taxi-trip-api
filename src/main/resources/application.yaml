@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:55321}/${DB_NAME:fym}
+    username: ${DB_USER:fym}
+    password: ${DB_PASS:letmeeeen}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    locations: classpath:migration/postgres
