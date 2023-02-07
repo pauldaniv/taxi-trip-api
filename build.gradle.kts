@@ -1,25 +1,54 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
+	idea
 	java
-	id("org.springframework.boot") version "3.0.2"
-	id("io.spring.dependency-management") version "1.1.0"
+	`maven-publish`
+	id("org.springframework.boot") version "3.0.2" apply false
+	id("io.spring.dependency-management") version "1.1.0" apply false
 }
 
-group = "com.pauldaniv"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+subprojects {
+	group = "com.pauldaniv.promotion.yellowtaxi"
+	version = "0.0.1-SNAPSHOT"
 
-repositories {
-	mavenCentral()
-}
+	apply(plugin = "idea")
+	apply(plugin = "java")
+	apply(plugin = "maven-publish")
+	apply(plugin = "org.springframework.boot")
+	apply(plugin = "io.spring.dependency-management")
+	java.sourceCompatibility = JavaVersion.VERSION_17
 
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-rest")
-	implementation("org.springframework.boot:spring-boot-starter-jooq")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	runtimeOnly("org.postgresql:postgresql")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
+	repositories {
+		mavenCentral()
+		mavenLocal()
+	}
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+  dependencies {
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+  }
+
+	tasks.creating(Jar::class) {
+		archiveClassifier.set("sources")
+		from(sourceSets["main"].allSource)
+	}
+
+	if (project.name != "service") {
+		tasks.getByName<BootJar>("bootJar") {
+			enabled = false
+		}
+	}
+
+	tasks.getByName<Jar>("jar") {
+		enabled = true
+	}
+
+  tasks.withType<JavaCompile> {
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
+  }
+
+	tasks.withType<Test> {
+		useJUnitPlatform()
+	}
 }
