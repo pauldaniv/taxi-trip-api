@@ -41,5 +41,5 @@ jobs:
         run: chmod +x gradlew
       - name: Run tests
         run: ./gradlew test
-      - name: Run tests
+      - name: Build docker image
         run: ./gradlew bootBuildImage
