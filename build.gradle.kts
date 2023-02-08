@@ -1,4 +1,6 @@
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
 	idea
@@ -34,13 +36,15 @@ subprojects {
 	}
 
 	if (project.name != "service") {
+		tasks.getByName<BootRun>("bootRun") {
+			enabled = false
+		}
 		tasks.getByName<BootJar>("bootJar") {
 			enabled = false
 		}
-	}
-
-	tasks.getByName<Jar>("jar") {
-		enabled = true
+		tasks.getByName<BootBuildImage>("bootBuildImage") {
+			enabled = false
+		}
 	}
 
   tasks.withType<JavaCompile> {
