@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.pauldaniv.promotion.yellowtaxi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

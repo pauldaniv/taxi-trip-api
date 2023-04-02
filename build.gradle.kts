@@ -8,6 +8,7 @@ plugins {
 	`maven-publish`
 	id("org.springframework.boot") version "3.0.2" apply false
 	id("io.spring.dependency-management") version "1.1.0" apply false
+	id("io.freefair.lombok") version "8.0.1" apply false
 }
 
 subprojects {
@@ -19,6 +20,7 @@ subprojects {
 	apply(plugin = "maven-publish")
 	apply(plugin = "org.springframework.boot")
 	apply(plugin = "io.spring.dependency-management")
+	apply(plugin = "io.freefair.lombok")
 	java.sourceCompatibility = JavaVersion.VERSION_17
 
 	repositories {
