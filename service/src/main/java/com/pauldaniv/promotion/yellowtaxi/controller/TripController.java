@@ -14,7 +14,7 @@ public class TripController {
     @GetMapping
     public ResponseEntity<List<TripResponse>> health() {
         return ResponseEntity.ok(List.of(TripResponse.builder()
-                .id("test")
+                .id("test6")
                 .distance(123L)
                 .build()));
     }
