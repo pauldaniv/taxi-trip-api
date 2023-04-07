@@ -37,4 +37,4 @@ jobs:
           java-version: 17
           distribution: 'temurin'
       - name: Build docker image
-        run: ls && bash ci.sh
+        run: which ci && ci
