@@ -31,15 +31,18 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: 17
-#          distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
       - name: Run Build
-        run: ./gradlew build
+        run: ci build
       - name: Run Tests
-        run: ./gradlew test
+        run: ci test
+      - name: Publish artifacts
+        if: github.ref == 'refs/heads/main'
+        run: ci publish
       - name: Deploy
         if: github.ref == 'refs/heads/main'
         run: ci deploy
