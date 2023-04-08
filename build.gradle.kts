@@ -56,15 +56,6 @@ subprojects {
 		}
 	}
 
-	tasks.getByName<Jar>("jar") {
-		enabled = true
-	}
-
-	val sourcesJar by tasks.creating(Jar::class) {
-		archiveClassifier.set("sources")
-		from(sourceSets["main"].allSource)
-	}
-
 	publishing {
 		repositories {
 			maven {
@@ -78,9 +69,15 @@ subprojects {
 		}
 
 		publications {
-			register<MavenPublication>("publishDependencies") {
-				from(components["java"])
-				artifact(sourcesJar)
+			create<MavenPublication>("maven") {
+				versionMapping {
+					usage("java-api") {
+						fromResolutionOf("runtimeClasspath")
+					}
+					usage("java-runtime") {
+						fromResolutionResult()
+					}
+				}
 			}
 		}
 	}
