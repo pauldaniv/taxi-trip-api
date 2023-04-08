@@ -9,11 +9,10 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  DOCKER_REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY_URL }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   publish:
+    env:
+      AWS_DOMAIN_OWNER_ID: ${{ secrets.AWS_DOMAIN_OWNER_ID }}
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/pauldaniv/yellow-taxi-scripts/build-java:latest
