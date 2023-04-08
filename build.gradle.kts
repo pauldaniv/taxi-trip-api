@@ -13,7 +13,7 @@ plugins {
 
 val awsDomainOwner: String = System.getenv("AWS_DOMAIN_OWNER_ID")
 val codeArtifactRepository = "https://promotion-${awsDomainOwner}.d.codeartifact.us-east-2.amazonaws.com/maven/releases/"
-val codeArtifactPassword: String = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+val codeArtifactPassword: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
 
 subprojects {
 	group = "com.pauldaniv.promotion.yellowtaxi"
