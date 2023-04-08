@@ -11,6 +11,10 @@ plugins {
 	id("io.freefair.lombok") version "8.0.1" apply false
 }
 
+val awsDomainOwner: String = System.getenv("AWS_DOMAIN_OWNER_ID")
+val codeArtifactRepository = "https://promotion-${awsDomainOwner}.d.codeartifact.us-east-2.amazonaws.com/maven/releases/"
+val codeArtifactPassword: String = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+
 subprojects {
 	group = "com.pauldaniv.promotion.yellowtaxi"
 	version = "0.0.1-SNAPSHOT"
@@ -26,16 +30,19 @@ subprojects {
 	repositories {
 		mavenCentral()
 		mavenLocal()
+		maven {
+			name = "CodeArtifact"
+			url = uri(codeArtifactRepository)
+			credentials {
+				username = "aws"
+				password = codeArtifactPassword
+			}
+		}
 	}
 
   dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
   }
-
-	tasks.creating(Jar::class) {
-		archiveClassifier.set("sources")
-		from(sourceSets["main"].allSource)
-	}
 
 	if (project.name != "service") {
 		tasks.getByName<BootRun>("bootRun") {
@@ -46,6 +53,35 @@ subprojects {
 		}
 		tasks.getByName<BootBuildImage>("bootBuildImage") {
 			enabled = false
+		}
+	}
+
+	tasks.getByName<Jar>("jar") {
+		enabled = true
+	}
+
+	val sourcesJar by tasks.creating(Jar::class) {
+		archiveClassifier.set("sources")
+		from(sourceSets["main"].allSource)
+	}
+
+	publishing {
+		repositories {
+			maven {
+				name = "CodeArtifactPackages"
+				url = uri(codeArtifactRepository)
+				credentials {
+					username = "aws"
+					password = codeArtifactPassword
+				}
+			}
+		}
+
+		publications {
+			register<MavenPublication>("publishDependencies") {
+				from(components["java"])
+				artifact(sourcesJar)
+			}
 		}
 	}
 
