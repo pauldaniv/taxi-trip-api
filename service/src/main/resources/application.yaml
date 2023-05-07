@@ -1,12 +1,28 @@
 server.port: ${PORT:8080}
+
 spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:55321}/${DB_NAME:service}
     username: ${DB_USER:service}
     password: ${DB_PASS:letmeeeen}
     driver-class-name: org.postgresql.Driver
+
   flyway:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
     locations: classpath:migration/postgres
+
+  kafka:
+    bootstrap-servers: ${KAFKA_HOSTNAME:kafka.kafka}
+
+    producer:
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: yt.
+      properties:
+        enable.idempotence: true
+
+    consumer:
+      isolation-level: read_committed
+      enable-auto-commit: false
