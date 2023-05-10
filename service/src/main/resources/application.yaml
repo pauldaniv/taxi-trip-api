@@ -14,7 +14,7 @@ spring:
     locations: classpath:migration/postgres
 
   kafka:
-    bootstrap-servers: ${KAFKA_HOSTNAME:kafka.kafka}
+    bootstrap-servers: ${KAFKA_HOSTNAME:localhost}
 
     producer:
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
