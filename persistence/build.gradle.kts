@@ -9,10 +9,10 @@ plugins {
 dependencies {
 	implementation(project(":api"))
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
-	implementation("org.postgresql:postgresql:42.2.27")
 	implementation("org.jooq:jooq")
 
-	jooqGenerator("org.postgresql:postgresql:42.2.27")
+	runtimeOnly("org.postgresql:postgresql")
+	jooqGenerator("org.postgresql:postgresql")
 
 	testImplementation("org.testcontainers:postgresql:1.17.6")
 }
