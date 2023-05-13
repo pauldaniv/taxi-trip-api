@@ -8,3 +8,14 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 }
+
+// We need to have migration files from 'persistence' module so that they are visible
+// during application start
+tasks.register<Copy>("copyMigrations") {
+	from(project(":persistence").sourceSets.main.get().resources.srcDir("migration"))
+	into("$buildDir/resources/main")
+}
+
+tasks.jar {
+	dependsOn(tasks.findByName("copyMigrations"))
+}
