@@ -3,7 +3,7 @@ import org.jooq.meta.jaxb.Logging
 
 plugins {
 	id("org.flywaydb.flyway") version "9.14.1"
-	id("nu.studer.jooq") version "8.1"
+	id("nu.studer.jooq") version "8.2"
 }
 
 dependencies {
