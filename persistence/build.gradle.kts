@@ -1,21 +1,18 @@
-import com.rohanprabhu.gradle.plugins.kdjooq.JooqCodeGenerationTask
 import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Logging
 
 plugins {
 	id("org.flywaydb.flyway") version "9.14.1"
-	id("nu.studer.jooq") version "8.2"
-	id("com.rohanprabhu.kotlin-dsl-jooq") version "0.4.6"
+	id("nu.studer.jooq") version "8.1"
 }
 
 dependencies {
 	implementation(project(":api"))
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
-	implementation("org.postgresql:postgresql:42.2.12")
+	implementation("org.postgresql:postgresql:42.2.27")
 	implementation("org.jooq:jooq")
 
-	jooqGenerator("org.postgresql:postgresql:42.2.12")
-	jooqGeneratorRuntime("org.postgresql:postgresql:42.2.12")
+	jooqGenerator("org.postgresql:postgresql:42.2.27")
 
 	testImplementation("org.testcontainers:postgresql:1.17.6")
 }
