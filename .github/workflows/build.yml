@@ -21,7 +21,7 @@ jobs:
     container:
       image: ghcr.io/pauldaniv/yellow-taxi-scripts/build-java:1.0
     services:
-      image: postgres:13
+      image: postgres
       # Provide the password for postgres
       env:
         POSTGRES_USER: service
