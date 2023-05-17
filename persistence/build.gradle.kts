@@ -91,5 +91,5 @@ tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
 }
 
 fun getParam(name: String, default: String? = ""): String? {
-	return (System.getenv("name") ?: default)
+	return System.getenv(name) ?: default
 }
