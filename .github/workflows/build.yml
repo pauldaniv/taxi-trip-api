@@ -24,7 +24,6 @@ jobs:
       image: postgres
       # Provide the password for postgres
       env:
-        POSTGRES_USER: service
         POSTGRES_DB: service
         POSTGRES_PASSWORD: letmeeeen
       ports:
