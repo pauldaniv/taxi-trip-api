@@ -29,7 +29,7 @@ jooq {
 				logging = Logging.WARN
 				jdbc.apply {
 					driver = "org.postgresql.Driver"
-					url = "jdbc:postgresql://localhost:5432/service"
+					url = "jdbc:postgresql://${getParam("DB_HOST")}:5432/service"
 					user = "service"
 					password = "letmeeeen"
 //                    properties.add(Property().apply {
@@ -73,7 +73,7 @@ jooq {
 }
 
 flyway {
-	url = "jdbc:postgresql://localhost:5432/service"
+	url = "jdbc:postgresql://${getParam("DB_HOST")}:5432/service"
 	user = "service"
 	password = "letmeeeen"
 	schemas = arrayOf("public")
@@ -88,4 +88,8 @@ tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
 	(launcher::set)(javaToolchains.launcherFor {
 		languageVersion.set(JavaLanguageVersion.of(17))
 	})
+}
+
+fun getParam(name: String, default: String? = ""): String? {
+	return (System.getenv("name") ?: default)
 }
