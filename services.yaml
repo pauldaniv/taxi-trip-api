@@ -31,9 +31,9 @@ services:
       ALLOW_PLAINTEXT_LISTENER: 'yes'
 
   db:
-    image: postgres:13-alpine
+    image: postgres:15-alpine
     ports:
-      - 55321:5432
+      - 5432:5432
     environment:
       POSTGRES_USER: service
       POSTGRES_DB: service

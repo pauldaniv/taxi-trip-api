@@ -46,13 +46,8 @@ jooq {
 								ForcedType().apply {
 									name = "varchar"
 									includeExpression = ".*"
-									includeTypes = "JSONB?"
+									includeTypes = "TIMESTAMP?"
 								},
-								ForcedType().apply {
-									name = "varchar"
-									includeExpression = ".*"
-									includeTypes = "INET"
-								}
 						))
 					}
 					generate.apply {
@@ -62,7 +57,7 @@ jooq {
 						isFluentSetters = true
 					}
 					target.apply {
-						packageName = "com.pauldaniv.promotion.yellowtaxi.totals.jooq"
+						packageName = "com.pauldaniv.promotion.yellowtaxi.jooq"
 						directory = "${buildDir}/generated/jooq/main"  // default (can be omitted)
 					}
 					strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"

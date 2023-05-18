@@ -7,7 +7,7 @@ import org.jooq.DSLContext;
 
 import java.util.List;
 
-import static com.pauldaniv.promotion.yellowtaxi.totals.jooq.Tables.TAXI_TRIPS;
+import static com.pauldaniv.promotion.yellowtaxi.jooq.Tables.TAXI_TRIPS;
 
 @RequiredArgsConstructor
 public class TaxiTripDAOPostgres implements TaxiTripDAO {

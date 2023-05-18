@@ -17,6 +17,6 @@ tasks.register<Copy>("copyMigrations") {
 	into("$buildDir/resources/main")
 }
 
-tasks.jar {
+tasks.processResources {
 	dependsOn(tasks.findByName("copyMigrations"))
 }
