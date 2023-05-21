@@ -11,7 +11,8 @@ services:
     ports:
       - 2181:2181
 
-  kafka:
+  yt-kafka:
+    container_name: yt-kafka
     image: bitnami/kafka:3.4
     depends_on:
       - zookeeper
@@ -27,7 +28,8 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
       ALLOW_PLAINTEXT_LISTENER: 'yes'
 
-  db:
+  yt-db:
+    container_name: yt-db
     image: postgres:15-alpine
     ports:
       - 5432:5432

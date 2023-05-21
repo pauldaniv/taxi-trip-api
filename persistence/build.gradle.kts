@@ -17,6 +17,14 @@ dependencies {
 	testImplementation("org.testcontainers:postgresql:1.17.6")
 }
 
+val dbHost = findParam("DB_HOST") ?: "localhost"
+val dbPort = findParam("DB_PORT") ?: 5432
+val dbUser = findParam("DB_USER") ?: "service"
+val dbPass = findParam("DB_PASS") ?: "letmeeeen"
+val dbName = findParam("DB_NAME") ?: "service"
+
+fun findParam(name: String): String? = project.findProperty(name) as String? ?: System.getenv(name)
+
 jooq {
 	version.set("3.18.2")  // default (can be omitted)
 //	edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)  // default (can be omitted)
@@ -29,9 +37,9 @@ jooq {
 				logging = Logging.WARN
 				jdbc.apply {
 					driver = "org.postgresql.Driver"
-					url = "jdbc:postgresql://${getParam("DB_HOST", "localhost")}:5432/service"
-					user = "service"
-					password = "letmeeeen"
+					url = "jdbc:postgresql://$dbHost:$dbPort/$dbName"
+					user = dbUser
+					password = dbPass
 //                    properties.add(Property().apply {
 //                        key = "ssl"
 //                        value = "true"
@@ -68,9 +76,9 @@ jooq {
 }
 
 flyway {
-	url = "jdbc:postgresql://${getParam("DB_HOST", "localhost")}:5432/service"
-	user = "service"
-	password = "letmeeeen"
+	url =  "jdbc:postgresql://$dbHost:$dbPort/$dbName"
+	user = dbUser
+	password = dbPass
 	schemas = arrayOf("public")
 	locations = arrayOf("filesystem:src/main/resources/migration/postgres")
 }
@@ -78,6 +86,102 @@ flyway {
 tasks.withType<nu.studer.gradle.jooq.JooqGenerate> {
 	dependsOn(tasks.flywayMigrate)
 }
+
+val containers = listOf("yt-db", "yt-kafka")
+
+tasks.register("startServices") {
+	doLast {
+		containers.forEach {
+			if (isDockerRunning(it)) {
+				println("$it service is already running. Skipping...")
+			} else {
+				println("Bringing up containers...")
+				startContainers()
+			}
+		}
+	}
+}
+
+tasks.register("stopServices") {
+	doLast {
+		containers.forEach {
+			if (isDockerRunning(it)) {
+				stopService(it)
+			} else {
+				println("$it service is already stopped")
+			}
+		}
+	}
+}
+
+tasks.clean {
+	dependsOn(tasks.findByName("stopServices"))
+}
+
+tasks.flywayMigrate {
+	dependsOn(tasks.findByName("startServices"))
+}
+
+fun isDockerRunning(containerName: String) = listOf("docker", "inspect", "-f", "'{{json .State.Running}}'", containerName)
+		.exec().apply { println("ServiceState: $this") }.replace("'", "").toBoolean()
+
+fun isServiceHealthy(containerName: String) =
+		isDockerRunning(containerName)
+				&&
+		!listOf("docker", "inspect", "-f", "'{{json .State.Health.Status}}'", containerName)
+		.exec().apply { println(this) }
+		.contains("unhealthy")
+
+fun startContainers() {
+	"docker compose -f ${rootProject.projectDir}/services.yaml up -d".exec()
+	println("Waiting for postgres to be healthy...")
+	waitTillHealthy("yt-db")
+}
+
+fun stopService(containerName: String) {
+	"docker compose -f ${rootProject.projectDir}/services.yaml rm --stop --volumes $containerName --force"
+			.exec()
+			.apply { println(this) }
+}
+
+fun isPostgresHealthy(containerName: String) = listOf("docker", "exec", containerName, "psql", "-c", "select version()", "-U", dbUser)
+		.exec()
+		.apply { println(this) }
+		.contains("PostgreSQL 15.*compiled by".toRegex())
+
+fun waitTillHealthy(service: String) {
+	var count = 0
+	val retries = 50
+	while (!isPostgresHealthy(service) && count < retries) {
+		count++
+		Thread.sleep(1000L)
+		println(count)
+		println("Retrying...")
+	}
+	if (count >= retries) {
+		println("Unable to bring up $service service...")
+	} else {
+		println("Postgres container is up!")
+	}
+}
+
+fun List<String>.exec(workingDir: File = file("./")): String {
+	val proc = ProcessBuilder(*this.toTypedArray())
+			.directory(workingDir)
+			.redirectErrorStream(true)
+			.redirectOutput(ProcessBuilder.Redirect.PIPE)
+			.redirectError(ProcessBuilder.Redirect.PIPE)
+			.start()
+
+	proc.waitFor(1, TimeUnit.MINUTES)
+	return proc.inputStream.bufferedReader().readLines().joinToString("\n")
+}
+
+fun String.exec(): String {
+	val parts = this.split("\\s".toRegex())
+	return parts.toList().exec()
+}
+
 
 tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
 	(launcher::set)(javaToolchains.launcherFor {
