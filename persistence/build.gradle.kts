@@ -129,8 +129,10 @@ fun isServiceHealthy(containerName: String) =
 		isDockerRunning(containerName)
 				&&
 		!listOf("docker", "inspect", "-f", "'{{json .State.Health.Status}}'", containerName)
-		.exec().apply { println(this) }
+		.exec(envs = mapOf("PGPASSWORD" to "letmeeeen")).apply { println(this) }
 		.contains("unhealthy")
+
+
 
 fun startContainers() {
 	"docker compose -f ${rootProject.projectDir}/services.yaml up -d".exec()
@@ -165,21 +167,24 @@ fun waitTillHealthy(service: String) {
 	}
 }
 
-fun List<String>.exec(workingDir: File = file("./")): String {
-	val proc = ProcessBuilder(*this.toTypedArray())
+fun List<String>.exec(workingDir: File = file("./"), envs: Map<String, String> = mapOf()): String {
+	val procBuilder = ProcessBuilder(*this.toTypedArray())
 			.directory(workingDir)
 			.redirectErrorStream(true)
 			.redirectOutput(ProcessBuilder.Redirect.PIPE)
 			.redirectError(ProcessBuilder.Redirect.PIPE)
-			.start()
+
+	procBuilder.environment().putAll(envs)
+
+	val proc = procBuilder.start()
 
 	proc.waitFor(1, TimeUnit.MINUTES)
 	return proc.inputStream.bufferedReader().readLines().joinToString("\n")
 }
 
-fun String.exec(): String {
+fun String.exec(envs: Map<String, String> = mapOf()): String {
 	val parts = this.split("\\s".toRegex())
-	return parts.toList().exec()
+	return parts.toList().exec(envs = envs)
 }
 
 

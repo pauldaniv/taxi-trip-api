@@ -33,6 +33,11 @@ services:
     image: postgres:15-alpine
     ports:
       - 5432:5432
+    healthcheck:
+      test: [ 'CMD', 'psql', '-c', 'select version()', '-U', 'service' ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
     environment:
       POSTGRES_USER: service
       POSTGRES_DB: service
