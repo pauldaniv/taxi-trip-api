@@ -66,10 +66,12 @@ jobs:
           distribution: 'temurin'
       - name: Deps
         run: |
-          apt-get install postgresql-client
+          apt-get update && apt-get install postgresql-client
           docker compose -f services.yaml up -d
           export PGPASSWORD=letmeeen
-          psql -U service -p service -h localhost || psql -U service -p service -h yt-db || psql -U service -p service -h postgres
+          psql -U service -p service -h localhost
+          psql -U service -p service -h yt-db
+          psql -U service -p service -h postgres
       - name: Inspect
         run: docker inspect $(docker ps -q)
 
