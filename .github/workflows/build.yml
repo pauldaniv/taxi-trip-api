@@ -30,7 +30,7 @@ jobs:
           POSTGRES_PASSWORD: letmeeeen
         ports:
           # Maps tcp port 5432 on service container to the host
-          - 54321:5432
+          - 5432:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -73,7 +73,7 @@ jobs:
           export PGPASSWORD=letmeeeen
           psql -c 'select version()' -U service -h localhost \
           || psql -c 'select version()' -U service -h yt-db \
-          || psql -c 'select version()' -U service -h postgres -p 54321
+          || psql -c 'select version()' -U service -h postgres -p 5432
       - name: Inspect
         run: docker inspect $(docker ps -q)
 
