@@ -154,6 +154,10 @@ fun isPostgresHealthy(containerName: String) = listOf("docker", "exec", containe
 fun waitTillHealthy(service: String) {
 	var count = 0
 	val retries = 50
+	if (System.getenv("GITHUB_ACTIONS").toBoolean()) {
+		println("Detected GitHub Actions env. Skipping postgres checks...")
+		return
+	}
 	while (!isPostgresHealthy(service) && count < retries) {
 		count++
 		Thread.sleep(1000L)
