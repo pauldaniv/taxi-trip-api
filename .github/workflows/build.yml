@@ -67,7 +67,7 @@ jobs:
       - name: Deps
         run: |
           apt-get update && apt-get install postgresql-client -y
-          docker compose -f services.yaml up -d
+#          docker compose -f services.yaml up -d
       - name: Get Version
         run: |
           export PGPASSWORD=letmeeeen
