@@ -53,6 +53,6 @@ services:
     networks:
       yt-network:
         aliases:
-          - postgres
+          - yt-db
 networks:
   yt-network:
