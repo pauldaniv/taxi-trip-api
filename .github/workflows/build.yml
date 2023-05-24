@@ -80,7 +80,7 @@ jobs:
       - name: Prepare...
         run: ci prepare
       - name: Run Build
-        run: docker ps && docker inspect yt-db && ci build
+        run: ci build
       - name: Run Tests
         run: ci test
       - name: Publish artifacts
