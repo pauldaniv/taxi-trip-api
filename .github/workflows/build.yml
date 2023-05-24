@@ -13,6 +13,9 @@ jobs:
   publish:
     name: CI/CD pipeline
     env:
+      AWS_DOMAIN_OWNER_ID: ${{ secrets.AWS_DOMAIN_OWNER_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       DB_PORT: 5432
       DB_HOST: postgres
     runs-on: ubuntu-latest
@@ -64,10 +67,6 @@ jobs:
           distribution: 'temurin'
       - name: Prepare...
         run: ci prepare
-        env:
-          AWS_DOMAIN_OWNER_ID: ${{ secrets.AWS_DOMAIN_OWNER_ID }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Run Build
         run: ci build
       - name: Run Tests
