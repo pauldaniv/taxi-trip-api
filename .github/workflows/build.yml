@@ -64,13 +64,19 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
+      - name: Deps
+        run: |
+          apt-get install postgresql-client
+          docker compose -f services.yaml up -d
+          export PGPASSWORD=letmeeen
+          psql -U service -p service -h localhost || psql -U service -p service -h yt-db || psql -U service -p service -h postgres
       - name: Inspect
         run: docker inspect $(docker ps -q)
 
       - name: Prepare...
         run: ci prepare
       - name: Run Build
-        run: docker compose -f services.yaml up -d && docker ps && docker inspect yt-db && ci build
+        run: docker ps && docker inspect yt-db && ci build
       - name: Run Tests
         run: ci test
       - name: Publish artifacts
