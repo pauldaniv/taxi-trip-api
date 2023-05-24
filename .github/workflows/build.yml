@@ -68,7 +68,7 @@ jobs:
         run: |
           apt-get update && apt-get install postgresql-client -y
           docker compose -f services.yaml up -d
-          export PGPASSWORD=letmeeen
+          export PGPASSWORD=letmeeeen
           psql -c 'select version()' -U service -h localhost \
           || psql -c 'select version()' -U service -h yt-db \
           || psql -c 'select version()' -U service -h postgres -p 54321
