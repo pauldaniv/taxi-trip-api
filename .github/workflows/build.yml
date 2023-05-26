@@ -76,9 +76,6 @@ jobs:
           || psql -c 'select version()' -U service -h postgres -p 5432
       - name: Inspect
         run: docker inspect $(docker ps -q)
-
-      - name: Prepare...
-        run: ci prepare
       - name: Run Build
         run: ci build
       - name: Run Tests
