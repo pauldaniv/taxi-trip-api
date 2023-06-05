@@ -153,10 +153,10 @@ fun stopService(containerName: String) {
 fun waitTillHealthy(service: String) {
     var count = 0
     val retries = 50
-    if (System.getenv("GITHUB_ACTIONS").toBoolean()) {
-        println("Detected GitHub Actions env. Skipping postgres checks...")
-        return
-    }
+//    if (System.getenv("GITHUB_ACTIONS").toBoolean()) {
+//        println("Detected GitHub Actions env. Skipping postgres checks...")
+//        return
+//    }
     while (!isServiceHealthy(service) && count < retries) {
         count++
         Thread.sleep(1000L)
