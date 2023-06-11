@@ -6,7 +6,7 @@ plugins {
     idea
     java
     `maven-publish`
-    id("org.springframework.boot") version "3.1.0-M2" apply false
+    id("org.springframework.boot") version "3.1.0" apply false
     id("io.spring.dependency-management") version "1.1.0" apply false
     id("io.freefair.lombok") version "8.0.1" apply false
 }
@@ -30,7 +30,6 @@ subprojects {
     repositories {
         mavenCentral()
         mavenLocal()
-        maven { url = uri("https://repo.spring.io/milestone") }
         maven {
             name = "CodeArtifact"
             url = uri(codeArtifactRepository)
