@@ -1,5 +1,7 @@
 package com.pauldaniv.promotion.yellowtaxi.model;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +13,7 @@ import java.math.BigDecimal;
  */
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TaxiTrip {
     @Column(name = "id")
     private Long id;
