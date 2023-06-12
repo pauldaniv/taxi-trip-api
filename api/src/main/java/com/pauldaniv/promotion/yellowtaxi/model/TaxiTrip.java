@@ -24,19 +24,19 @@ public class TaxiTrip {
     @Column(name = "payment_type_id")
     private Long paymentTypeId;
     @Column(name = "tpep_pickup_datetime")
-    private String tpepPickupDatetime;
+    private String tPepPickupDatetime;
     @Column(name = "tpep_dropoff_datetime")
-    private String tpepDropoffDatetime;
+    private String tPepDropOffDatetime;
     @Column(name = "dropoff_month")
-    private Integer dropoffMonth;
+    private Integer dropOffMonth;
     @Column(name = "passenger_count")
     private Integer passengerCount;
     @Column(name = "trip_distance")
     private Double tripDistance;
     @Column(name = "pulocationid")
-    private Integer pulocationid;
+    private Integer puLocationId;
     @Column(name = "dolocationid")
-    private Integer dolocationid;
+    private Integer doLocationId;
     @Column(name = "store_and_fwd_flag")
     private Boolean storeAndFwdFlag;
     @Column(name = "fare_amount")

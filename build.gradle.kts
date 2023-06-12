@@ -11,7 +11,7 @@ plugins {
     id("io.freefair.lombok") version "8.0.1" apply false
 }
 
-val awsDomainOwner: String = System.getenv("AWS_DOMAIN_OWNER_ID")
+val awsDomainOwner: String? = System.getenv("AWS_DOMAIN_OWNER_ID")
 val codeArtifactRepository = "https://promotion-${awsDomainOwner}.d.codeartifact.us-east-2.amazonaws.com/maven/releases/"
 val codeArtifactPassword: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
 
