@@ -7,18 +7,18 @@ import com.pauldaniv.promotion.yellowtaxi.persistence.TaxiTripDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
 public class TripListener {
 
     private final TaxiTripDAO taxiTripDAO;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(id = "test", topics = {"testTopic"})
-    public void consumeTrip(String tripRequest) {
+    @KafkaListener(id = "main", topics = {"taxi-trips"})
+    public void consumeTrip(final String tripRequest) {
         try {
             final TaxiTrip taxiTrip = objectMapper.readValue(tripRequest, TaxiTrip.class);
             taxiTripDAO.store(taxiTrip);

@@ -42,6 +42,7 @@ subprojects {
 
     dependencies {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("org.testng:testng:7.8.0")
     }
 
     if (project.name != "service") {
@@ -92,6 +93,6 @@ subprojects {
     }
 
     tasks.withType<Test> {
-        useJUnitPlatform()
+        useTestNG()
     }
 }

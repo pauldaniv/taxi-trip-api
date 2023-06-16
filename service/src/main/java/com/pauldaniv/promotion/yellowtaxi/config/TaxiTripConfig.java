@@ -18,7 +18,7 @@ public class TaxiTripConfig {
 
     @Bean
     public NewTopic testTopic() {
-        return TopicBuilder.name("testTopic")
+        return TopicBuilder.name("taxi-trips")
                 .partitions(1)
                 .replicas(1)
                 .build();

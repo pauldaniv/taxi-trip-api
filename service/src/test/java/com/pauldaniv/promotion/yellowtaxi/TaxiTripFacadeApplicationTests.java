@@ -1,14 +1,16 @@
 package com.pauldaniv.promotion.yellowtaxi;
 
-
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
+@Slf4j
 @SpringBootTest
-class TaxiTripFacadeApplicationTests {
+public class TaxiTripFacadeApplicationTests extends AbstractTestNGSpringContextTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    public void contextLoads() {
+        log.info("msg=loaded_contexts");
+    }
 }
