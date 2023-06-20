@@ -6,6 +6,7 @@ plugins {
     idea
     java
     `maven-publish`
+    jacoco
     id("org.springframework.boot") version "3.1.0" apply false
     id("io.spring.dependency-management") version "1.1.0" apply false
     id("io.freefair.lombok") version "8.0.1" apply false
@@ -22,6 +23,7 @@ subprojects {
     apply(plugin = "idea")
     apply(plugin = "java")
     apply(plugin = "maven-publish")
+    apply(plugin = "jacoco")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "io.freefair.lombok")
@@ -94,5 +96,57 @@ subprojects {
 
     tasks.withType<Test> {
         useTestNG()
+    }
+
+    tasks.test {
+        finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    }
+
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test) // tests are required to run before generating the report
+    }
+
+    tasks.jacocoTestReport {
+        reports {
+            xml.required.set(false)
+            csv.required.set(false)
+            html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+        }
+    }
+
+    tasks.withType<JacocoReport> {
+        afterEvaluate {
+            classDirectories.setFrom(classDirectories.files.map {
+                fileTree(it).matching {
+                    exclude(
+                        "**/config",
+                        "**/jooq",
+                        "**/model",
+                        "**/*Application*"
+                    )
+                }
+            })
+        }
+    }
+
+    tasks.jacocoTestCoverageVerification {
+        violationRules {
+//            rule {
+//                limit {
+//                    minimum = "0.9".toBigDecimal()
+//                }
+//            }
+
+            rule {
+//                element = "CLASS"
+//                includes = listOf("com.pauldaniv.*")
+                classDirectories.setFrom(tasks.jacocoTestReport.get().classDirectories)
+                limit {
+                    counter = "LINE"
+                    value = "COVEREDRATIO"
+                    minimum = "1.0".toBigDecimal()
+                }
+            }
+        }
     }
 }
