@@ -27,8 +27,10 @@ public class TaxiTrip {
     private String tPepPickupDatetime;
     @Column(name = "tpep_dropoff_datetime")
     private String tPepDropOffDatetime;
-    @Column(name = "dropoff_month")
+    @Column(name = "drop_off_month")
     private Integer dropOffMonth;
+    @Column(name = "drop_off_day")
+    private Integer dropOffDay;
     @Column(name = "passenger_count")
     private Integer passengerCount;
     @Column(name = "trip_distance")
