@@ -131,6 +131,7 @@ fun isServiceHealthy(containerName: String) =
         else
             isDockerRunning(containerName)
 
+// todo: use postgres driver instead of console command
 fun isPostgresHealthy() =
         listOf("psql", "-U", dbUser, "-h", dbHost, "-c", "select version()")
                 .exec(envs = mapOf("PGPASSWORD" to dbPass)).apply {
