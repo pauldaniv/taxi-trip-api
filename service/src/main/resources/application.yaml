@@ -27,4 +27,4 @@ spring:
       isolation-level: read_committed
       enable-auto-commit: false
       properties:
-        json: "com.pauldaniv.promotion.yellowtaxi.model"
+        json: "com.pauldaniv.promotion.yellowtaxi"
