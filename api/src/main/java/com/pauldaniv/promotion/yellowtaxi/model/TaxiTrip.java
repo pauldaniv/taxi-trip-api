@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 /**
  * Entity class for a single taxi trip
@@ -24,9 +25,9 @@ public class TaxiTrip {
     @Column(name = "payment_type_id")
     private Long paymentTypeId;
     @Column(name = "tpep_pickup_datetime")
-    private String tPepPickupDatetime;
+    private Instant tPepPickupDatetime;
     @Column(name = "tpep_dropoff_datetime")
-    private String tPepDropOffDatetime;
+    private Instant tPepDropOffDatetime;
     @Column(name = "drop_off_year")
     private Integer dropOffYear;
     @Column(name = "drop_off_month")
