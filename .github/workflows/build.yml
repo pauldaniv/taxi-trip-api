@@ -71,6 +71,7 @@ jobs:
           apt-get install postgresql-client -y
 #          docker compose -f services.yaml up -d
       - name: Get Version
+        if: false
         run: |
           export PGPASSWORD=letmeeeen
           psql -c 'select version()' -U service -h localhost \
