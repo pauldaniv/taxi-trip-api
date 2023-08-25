@@ -26,3 +26,5 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       isolation-level: read_committed
       enable-auto-commit: false
+      properties:
+        json: "com.pauldaniv.promotion.yellowtaxi.model"
