@@ -17,7 +17,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       DB_HOST: postgres
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-16-cores
     container:
       image: ghcr.io/pauldaniv/yellow-taxi-scripts/build-java:1.0
     services:
