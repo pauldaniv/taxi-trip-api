@@ -52,7 +52,6 @@ jooq {
                         inputSchema = "public"
                     }
                     generate.apply {
-                        isJavaTimeTypes = true
                         isDeprecated = false
                         isRecords = true
                         isImmutablePojos = true
