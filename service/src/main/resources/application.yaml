@@ -30,4 +30,4 @@ spring:
         spring:
           json:
             trusted:
-              packages: "com.pauldaniv.promotion.yellowtaxi.facade.model"
+              packages: "com.pauldaniv.promotion.yellowtaxi.model"
