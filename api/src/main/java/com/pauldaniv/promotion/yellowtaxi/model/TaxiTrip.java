@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -26,9 +27,9 @@ public class TaxiTrip {
     @Column(name = "payment_type_id")
     private Long paymentTypeId;
     @Column(name = "tpep_pickup_datetime")
-    private Instant tPepPickupDatetime;
+    private LocalDateTime tPepPickupDatetime;
     @Column(name = "tpep_dropoff_datetime")
-    private Instant tPepDropOffDatetime;
+    private LocalDateTime tPepDropOffDatetime;
     @Column(name = "drop_off_year")
     private Integer dropOffYear;
     @Column(name = "drop_off_month")

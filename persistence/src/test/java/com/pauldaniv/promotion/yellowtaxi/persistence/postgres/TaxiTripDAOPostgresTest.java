@@ -13,6 +13,7 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.testng.annotations.Test;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 import static com.pauldaniv.promotion.yellowtaxi.jooq.Tables.TAXI_TRIPS;
 
@@ -30,8 +31,8 @@ public class TaxiTripDAOPostgresTest extends AbstractTransactionalTestNGSpringCo
     public void getsRecordsSuccessfully() {
         final TaxiTripsRecord taxiTripsRecord = db.newRecord(TAXI_TRIPS);
         taxiTripsRecord.from(TaxiTrip.builder()
-                        .tPepPickupDatetime(Instant.now())
-                        .tPepDropOffDatetime(Instant.now())
+                .tPepPickupDatetime(LocalDateTime.now())
+                .tPepDropOffDatetime(LocalDateTime.now())
                 .build());
         db.insertInto(TAXI_TRIPS)
                 .set(taxiTripsRecord)
