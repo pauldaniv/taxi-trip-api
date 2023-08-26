@@ -50,15 +50,9 @@ jooq {
                     database.apply {
                         name = "org.jooq.meta.postgres.PostgresDatabase"
                         inputSchema = "public"
-                        forcedTypes.addAll(listOf(
-                                ForcedType().apply {
-                                    name = "varchar"
-                                    includeExpression = ".*"
-                                    includeTypes = "TIMESTAMP?"
-                                },
-                        ))
                     }
                     generate.apply {
+                        isJavaTimeTypes = true
                         isDeprecated = false
                         isRecords = true
                         isImmutablePojos = true

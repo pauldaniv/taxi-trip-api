@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE vendors (
     id   BIGSERIAL primary key,
     name TEXT
@@ -14,12 +16,12 @@ CREATE TABLE payment_types (
 );
 
 CREATE TABLE taxi_trips (
-    id                    BIGSERIAL PRIMARY KEY,
+    id                    UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     vendor_id             INTEGER REFERENCES vendors (id),
     rate_code_id          INTEGER REFERENCES rate_codes (id),
     payment_type_id       INTEGER REFERENCES payment_types (id),
-    tpep_pickup_datetime  TEXT,
-    tpep_dropoff_datetime TEXT,
+    tpep_pickup_datetime  TIMESTAMP WITHOUT TIME ZONE,
+    tpep_dropoff_datetime TIMESTAMP WITHOUT TIME ZONE,
     drop_off_year         INTEGER,
     drop_off_month        INTEGER,
     drop_off_day          INTEGER,

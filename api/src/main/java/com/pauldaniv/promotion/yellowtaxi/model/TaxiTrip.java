@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * Entity class for a single taxi trip
@@ -17,7 +18,7 @@ import java.time.Instant;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TaxiTrip {
     @Column(name = "id")
-    private Long id;
+    private UUID id;
     @Column(name = "vendor_id")
     private Long vendorId;
     @Column(name = "rate_code_id")
