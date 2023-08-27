@@ -30,7 +30,7 @@ public class TaxiTripListenerTest {
     }
 
     @Test
-    public void consumesTaxiTripSuccessfully() throws JsonProcessingException {
+    public void consumesTaxiTripSuccessfully() {
 
         final TaxiTrip taxiTrip = TaxiTrip.builder().build();
 
@@ -42,9 +42,10 @@ public class TaxiTripListenerTest {
     }
 
     @Test
-    public void consumesTaxiTripExceptionally() throws JsonProcessingException {
+    public void consumesTaxiTripExceptionally() {
         final TaxiTrip taxiTrip = TaxiTrip.builder().build();
 
+        when(taxiTripDAO.store(taxiTrip)).thenThrow(new RuntimeException("test"));
         taxiTripListener.consumeTrip(taxiTrip);
     }
 

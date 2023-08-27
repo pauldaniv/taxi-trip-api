@@ -14,8 +14,10 @@ import org.testng.annotations.Test;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static com.pauldaniv.promotion.yellowtaxi.jooq.Tables.TAXI_TRIPS;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @JooqTest
@@ -38,6 +40,21 @@ public class TaxiTripDAOPostgresTest extends AbstractTransactionalTestNGSpringCo
                 .set(taxiTripsRecord)
                 .returning()
                 .fetchOneInto(TaxiTrip.class);
+        log.info("Records={}", taxiTripDAO.getAll());
+    }
+
+    @Test
+    public void storesSuccessfully() {
+        final UUID id = UUID.randomUUID();
+        final TaxiTrip taxiTrip = TaxiTrip.builder()
+                .id(id)
+                .tPepPickupDatetime(LocalDateTime.now())
+                .tPepDropOffDatetime(LocalDateTime.now())
+                .build();
+
+        taxiTripDAO.store(taxiTrip);
+        assertThat(taxiTripDAO.getAll().stream().filter(it -> it.getId().equals(id)).findAny()).isPresent();
+
         log.info("Records={}", taxiTripDAO.getAll());
     }
 }
