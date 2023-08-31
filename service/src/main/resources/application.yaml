@@ -26,6 +26,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       isolation-level: read_committed
       enable-auto-commit: false
+      group-id: ${random.uuid}
       properties:
         spring:
           json:
