@@ -14,10 +14,10 @@ public class TaxiTripListener {
 
     private final TaxiTripDAO taxiTripDAO;
 
-    @KafkaListener(id = "main", topics = {"taxi-trips"})
+    @KafkaListener(id = "main", topics = {"taxi-trips"}, groupId = "#{T(java.util.UUID).randomUUID().toString()}")
     public void consumeTrip(final TaxiTrip taxiTrip) {
         try {
-                taxiTripDAO.store(taxiTrip);
+            taxiTripDAO.store(taxiTrip);
             log.info("msg=received_trip trip={}", taxiTrip);
         } catch (Exception e) {
             log.error("Failed to parse object. Raw data: {}. Reason: {}", taxiTrip, e.getMessage(), e);
