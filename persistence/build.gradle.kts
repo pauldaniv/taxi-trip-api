@@ -13,8 +13,6 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
     jooqGenerator("org.postgresql:postgresql")
-
-    testImplementation("org.testcontainers:postgresql:1.17.6")
 }
 
 val dbHost = findParam("DB_HOST") ?: "localhost"
