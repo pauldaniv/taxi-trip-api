@@ -14,7 +14,7 @@ public class TaxiTripListener {
 
     private final TaxiTripDAO taxiTripDAO;
 
-    @KafkaListener(id = "main", topics = {"taxi-trips"}, groupId = "#{T(java.util.UUID).randomUUID().toString()}")
+    @KafkaListener(id = "main", topics = {"taxi-trips"})
     public void consumeTrip(final TaxiTrip taxiTrip) {
         try {
             taxiTripDAO.store(taxiTrip);
