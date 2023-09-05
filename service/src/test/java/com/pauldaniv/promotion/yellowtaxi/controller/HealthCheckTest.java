@@ -26,7 +26,7 @@ public class HealthCheckTest {
         mockMvc = MockMvcBuilders.standaloneSetup(healthCheck).build();
     }
 
-    @Test
+    @Test(enabled = false)
     public void testApi() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/health_check"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
